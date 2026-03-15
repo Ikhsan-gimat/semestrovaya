@@ -1,0 +1,79 @@
+class Deque:
+    def __init__(self,capacity):
+        self.capacity = capacity
+        # массив фикс размера
+        self.data =[ None] * capacity
+        # 1 эдемент
+        self.front = 0
+        # след эл с конца
+        self.rear = 0
+        # текущее количество элементов
+        self.count = 0
+
+    def is_empty(self):
+        return self.count == 0
+    def is_full(self):
+        return self.count == self.capacity
+
+    def size(self):
+        return self.count
+
+
+    def push_front(self, value):
+        if self.is_full():
+            print("Deque is full")
+            return
+        # сдвигаем front назад по кругу
+        self.front = (self.front - 1) % self.capacity
+        # записываем элемент
+        self.data[self.front] = value
+        self.count += 1
+
+    def push_back(self, value):
+        if self.is_full():
+            print("Deque is full")
+            return
+
+        self.data[self.rear] = value
+        # двигаем rear вперед по кругу
+        self.rear = (self.rear + 1) % self.capacity
+        self.count += 1
+
+    def pop_front(self):
+        if self.is_empty():
+            return print("Queue is empty")
+        value = self.data[self.front]
+        self.front = (self.front + 1) % self.capacity
+        self.count -= 1
+        return value
+
+    def pop_back(self):
+        if self.is_empty():
+            return None
+
+        # сначала сдвигаем rear назад
+        self.rear = (self.rear - 1) % self.capacity
+
+        value = self.data[self.rear]
+        self.count -= 1
+        return value
+
+    def peek_front(self):
+        if self.is_empty():
+            return None
+        return self.data[self.front]
+
+    def peek_back(self):
+        if self.is_empty():
+            return None
+        return self.data[(self.rear - 1) % self.capacity]
+
+    def to_list(self):
+        result = []
+        for i in range(self.count):
+            index = (self.front + i) % self.capacity
+            result.append(self.data[index])
+        return result
+
+
+
